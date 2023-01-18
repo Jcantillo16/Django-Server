@@ -8,17 +8,8 @@
     <title>Enersinc</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.all.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.common.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.common.min.js.map"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.es6.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.es6.min.js.map"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.js.map"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js.map"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js.map"></script>
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 
 <body>
@@ -46,13 +37,22 @@
                         <td>{{ persona.apellidos }}</td>
                         <td>{{ persona.hobbie }}</td>
                         <td>
-                            <a href="{% url 'persona_detail' persona.id %}" methods="PUT"
-                               class="btn btn-warning">Editar
+                            <a href="{% url 'persona_detail' persona.id %}" methods="put">
+                                <button type="button" class="btn btn-warning">Editar</button>
                             </a>
-                            <a href="{% url 'persona_detail' persona.id %}" methods="DELETE"
-                               class="btn btn-danger">Eliminar
+                            <a href="{% url 'persona_delete' persona.id %}" methods="delete">
+                                <button type="button" class="btn btn-danger"
+                                        onclick=
+                                                "Swal.fire({
+                                                title: 'Eliminada correctamente',
+                                                text: 'La persona ha sido eliminada correctamente',
+                                                type: 'success',
+                                                confirmButtonText: 'Aceptar',
+                                                timer : 3000
+                                                })">
+                                    Eliminar
+                                </button>
                             </a>
-
                         </td>
                     </tr>
                 {% endfor %}
@@ -80,7 +80,6 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="tipo_documento">Tipo de documento</label>
-                        select
                         <select class="form-control" id="tipo_documento" name="tipo_documento">
                             <option value="CC">Cedula de ciudadania</option>
                             <option value="TI">Tarjeta de identidad</option>
@@ -105,7 +104,15 @@
                         <label for="hobbie">Hobbie</label>
                         <input type="text" class="form-control" id="hobbie" name="hobbie">
                     </div>
-                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <button type="submit" class="btn btn-success"
+                            onclick=
+                                    "Swal.fire({
+                            title: 'Registro exitoso',
+                            text: 'Se ha registrado correctamente',
+                            type: 'success',
+                            confirmButtonText: 'Aceptar'
+                            })">Guardar
+                    </button>
                 </form>
             </div>
         </div>
@@ -122,6 +129,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </html>

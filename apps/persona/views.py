@@ -5,6 +5,10 @@ from django.http import Http404
 from .serializers import PersonaSerializers
 from .models import Persona
 from django.shortcuts import render, redirect
+#HttpResponseRedirect.
+from django.http import HttpResponseRedirect
+
+
 
 
 class PersonaList(APIView):
@@ -18,7 +22,8 @@ class PersonaList(APIView):
         serializer = PersonaSerializers(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return redirect('home')
+            return HttpResponseRedirect('/')
+
         return Response(
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
@@ -28,30 +33,41 @@ class PersonaList(APIView):
 class PersonaDetail(APIView):
     def get_object(self, pk):
         try:
-            return Persona.objects.get(pk=pk)
+            persona = Persona.objects.get(pk=pk)
+            return persona
         except Persona.DoesNotExist:
             raise Http404
 
+    # @csrf_protect
     def get(self, request, pk):
         persona = self.get_object(pk)
         serializer = PersonaSerializers(persona).data
-        return Response(serializer)
+        context = {
+            'persona': persona
+        }
+        return render(request, 'form.html', context)
 
-    def put(self, request, pk):
+    def post(self, request, pk):
         persona = self.get_object(pk)
         serializer = PersonaSerializers(persona, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return HttpResponseRedirect('/api/persona/')
         return Response(
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    def delete(self, request, pk):
+
+class PersonaDelete(APIView):
+    def get_object(self, pk):
         try:
-            persona = self.get_object(pk)
-            persona.delete()
-            return render(request, 'home.html', {'persona': persona})
+            persona = Persona.objects.get(pk=pk)
+            return persona
         except Persona.DoesNotExist:
             raise Http404
+
+    def get(self, request, pk):
+        persona = self.get_object(pk)
+        persona.delete()
+        return redirect('home')

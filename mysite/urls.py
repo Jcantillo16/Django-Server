@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import HomeView
+from .views import HomeView, formView
 
 urlpatterns = [
+
     path('', HomeView.as_view(), name='home'),
+    path('form/<int:pk>', formView.as_view(), name='form'),
     path('admin/', admin.site.urls),
     path('api/', include('apps.persona.urls'))
 ]
